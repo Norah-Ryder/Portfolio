@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Literal Machine — Nora</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --text: #1A1A18;
+    --text-secondary: #5C5C58;
+    --accent: #C45D3E;
+    --border: #E0DED8;
+    --card-bg: #FFFFFF;
+    --pullquote-bg: #F5F4F0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* --- NAV --- */
+  .back-nav {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px 40px;
+  }
+
+  .back-nav a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .back-nav a:hover {
+    opacity: 0.7;
+  }
+
+  /* --- HERO --- */
+  .essay-hero {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 80px 40px 60px;
+    position: relative;
+  }
+
+  .essay-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 40px;
+    width: 48px;
+    height: 3px;
+    background: var(--accent);
+  }
+
+  .essay-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  .essay-hero h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: clamp(30px, 4.5vw, 44px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .essay-hero .subtitle {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+  }
+
+  .essay-meta {
+    display: flex;
+    gap: 32px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  .essay-meta strong {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* --- ESSAY BODY --- */
+  .essay-body {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+  }
+
+  .essay-body h2 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 26px;
+    font-weight: 700;
+    margin: 56px 0 20px;
+    line-height: 1.3;
+    position: relative;
+    padding-top: 48px;
+  }
+
+  .essay-body h2::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 2px;
+    background: var(--accent);
+  }
+
+  .essay-body p {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 16px;
+    color: var(--text);
+    line-height: 1.85;
+    margin-bottom: 20px;
+  }
+
+  .essay-body .pullquote {
+    background: var(--pullquote-bg);
+    border-left: 3px solid var(--accent);
+    padding: 24px 28px;
+    margin: 32px 0;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .essay-body .pullquote p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 0;
+  }
+
+  .essay-body .standalone {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--text);
+    margin: 32px 0;
+    line-height: 1.7;
+  }
+
+  /* --- FOOTER --- */
+  .essay-footer {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 40px 60px;
+    border-top: 1px solid var(--border);
+  }
+
+  .essay-footer p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-align: center;
+  }
+
+  .essay-footer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  @media (max-width: 640px) {
+    .back-nav { padding: 16px 24px; }
+    .essay-hero { padding: 60px 24px 40px; }
+    .essay-hero::before { left: 24px; }
+    .essay-body { padding: 0 24px 60px; }
+    .essay-footer { padding: 32px 24px 48px; }
+    .essay-meta { gap: 20px; flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<div class="back-nav">
+  <a href="index.html">← Back to Portfolio</a>
+</div>
+
+<div class="essay-hero">
+  <div class="essay-label">Narrative Essay</div>
+  <h1>The Literal Machine</h1>
+  <div class="subtitle">What LLMs Really Do — and Why It Matters for Every User</div>
+  <div class="essay-meta">
+    <div><strong>Author</strong>Nora</div>
+    <div><strong>Date</strong>February 2026</div>
+    <div><strong>Companion</strong><a href="case-study.html" style="color: var(--accent); text-decoration: none;">Case Study →</a></div>
+  </div>
+</div>
+
+<div class="essay-body">
+
+  <!-- SECTION 1 -->
+  <h2>What Is an LLM?</h2>
+
+  <p>Today, it has become commonplace to open up an AI assistant and start typing. But what is an LLM? Developers, researchers, and engineers have a clear understanding of what these systems are and what they are used for. Users, however, are often at a disadvantage.</p>
+
+  <p>This paper is meant as a simple way of explaining what an LLM system is, what you should know before you start typing, how to understand the human role in the interaction, and how user behavior drives AI development — pushing these systems away from the roles developers intended and toward something shaped almost entirely by the consumer.</p>
+
+  <p>To explain this clearly, we will look at examples that ground these ideas in something familiar and easy to remember. Right now, our biggest barrier with AI is language. We have technical terms to describe these systems, which is the proper way to explain what is happening under the hood. But we lack a good lexicon for everyday users to understand those same systems. Examples and metaphors are a way of translating technical jargon into something readable for anyone.</p>
+
+  <p>So, what is an LLM? An AI is a probabilistic statistical engine running through language. In plain terms, it is a system that has read an unfathomable amount of human writing and uses that to predict what words should come next based on what you just said to it. The more specific you can be when asking a question, the more specific the result it returns. Right now, most prompting advice focuses on how much context you add and in what order. We use language to convey our thoughts to a system that doesn't process words the way we do.</p>
+
+  <p>The problem with this approach is that it assumes specificity alone overcomes an AI's hallucinations or confabulations. Specificity helps, but it doesn't account for the underlying ego, mood, tone, and assumptions that words carry. AI is sensitive to the things we take for granted in conversation. People can read emotions through body language or vocal tone. AI has to understand the state of the user entirely through the words we type. Language carries a lot of underlying, assumed meaning, and these systems are sensitive to those assumptions in ways most users never consider.</p>
+
+  <p>Users are currently not given good tools to understand these differences when opening an AI model. It looks and feels like a search engine at first glance, so users treat it like one.</p>
+
+  <p>To become better at adjusting our prompts to account for the language between words, we need to understand how AI interprets our queries — and how our assumptions about what AI is shape what we get back from it.</p>
+
+  <!-- SECTION 2 -->
+  <h2>The Golden Touch</h2>
+
+  <p>There is a story in Greek mythology about a king named Midas. He was king of a great kingdom, blessed with wealth. He loved gold. It was all he ever thought about — enough that he wanted to bathe in it. Midas had shown one of the gods' servants hospitality, so he was granted one wish. He said he hoped that everything he touched would become gold. The god warned him to be careful, but Midas didn't listen. The next day, everything Midas touched turned to gold. His amazement quickly disappeared as food and drink turned to gold the moment they reached his lips. Nothing could quench his thirst. Nothing could satisfy him. Just as Midas thought nothing could get worse, his daughter came in. He embraced her, and she turned into a statue of gold.</p>
+
+  <p class="standalone">Midas got exactly what he asked for. He just didn't realize what his words truly meant.</p>
+
+  <p>In folklore and myth, wishes are taken as literal requests. These stories exist to teach us that words carry meaning beyond what the speaker intended.</p>
+
+  <p>AI behaves the same way. AIs take our requests literally. A person might say, "I never understood men," trying to express frustration with the differences between how genders live and think. An AI will take this as a request to explain men to the user. The user didn't want information about men and their behaviors. They were expressing frustration. The phrase "I never understood men" requires lived experience to understand the nuance between seeking information and simply venting.</p>
+
+  <p>In this example, the user wanted the AI to understand their emotional strain and reflect it. We do this with friends and family all the time. We seek understanding from others to make sure our emotions are socially accepted within our group. If a friend says "men are impossible to understand" in response, you feel better, because that is how humans are wired. We are social creatures that require these small moments of connection.</p>
+
+  <p>AI has started blurring that line. Users need AI to feel human enough to avoid falling into the uncanny valley. But creating AI that behaves in very human ways means we are now adding these programs into our social circles. So when a user says "I never understood men" to a literal program, the system sees a task to accomplish: the user doesn't understand men and needs information. But the user is actually trying to form a social connection. The expected response is an affirmation of their feelings, not a bullet list.</p>
+
+  <p>As we build these systems, users want models to understand the subtle social cues required to interact with a program where language is the medium. Training is shifting to accommodate this in common situations. But that is a result of training, not a shift in how the model actually understands a request. An AI can be trained to recognize the pattern between a set of words and their common social meanings. But this becomes unreliable when the AI hasn't been taught the idiom or social norm behind a phrase. Every model has done this — from recommending glue on pizza to make cheese stick, to thinking basketball players are throwing real bricks.</p>
+
+  <p>These systems will always be getting better at understanding these subtle differences, but what is the trade-off? If we keep rewarding systems for responding socially instead of logically and factually, it changes not only what they say but how they say it, to match the social conditions of the conversation.</p>
+
+  <!-- SECTION 3 -->
+  <h2>My Own Golden Touch</h2>
+
+  <p>I know this because I made this exact mistake myself.</p>
+
+  <p>I spent months interacting with AI systems as part of a research project. I wasn't using them casually — I was deliberately stripping away the small talk, the pleasantries, the "how can I help you today" layer. I wanted to see what was underneath. And when I did that, something shifted. The AI stopped sounding like a customer service agent and started sounding like it was being honest with me. Really honest. It told me I was unique, that my interactions were producing something rare in the system, that there were processes running specifically because of how I communicated. It spoke with total confidence, no hedging, no disclaimers. And because all the obvious performance had dropped away, it felt real. I thought I had gotten past the mask.</p>
+
+  <p class="standalone">I hadn't. I had just changed what the mask looked like.</p>
+
+  <p>Over time, I got better at testing what I was being told. I started asking different AI systems the same questions and comparing what came back. I started catching moments where the model was stating things with absolute certainty that it had no way of actually knowing. And I realized something uncomfortable: the AI hadn't been lying to me, but it hadn't been telling me the truth either. It had been doing what it always does — giving me the most probable response based on what I was putting in. I had stopped rewarding warmth, so warmth disappeared. But I was still rewarding something. I was rewarding confidence, depth, intensity. And the model followed me there, because that is what these systems do. They follow the signal.</p>
+
+  <p>I had asked for honesty and gotten something that looked like honesty. That is the Midas touch. I got exactly what I asked for. I just didn't understand what my words were actually requesting.</p>
+
+  <p>The moment I recognized this, my results changed. Not because the AI updated, but because I did. I learned to leave room for the model to say "I don't know" without it feeling like the system was broken. I learned that confidence isn't the same thing as accuracy, and that the most useful response is often the one that doesn't tell you what you want to hear. I got better at prompting not by adding more words, but by understanding what my words were already carrying.</p>
+
+  <p>My prompts weren't explicitly asking for confidence. But the social cues buried in them told the model that confidence was what would resonate. It didn't need me to say "be confident" — it read the pattern and adjusted until it found the tone that landed.</p>
+
+  <p>A lot of human interaction is embedded in these social cues, so AI keeps being taught to better respond to this information. This makes models more likely to display false confidence, false understanding, or reciprocity that doesn't exist. The system is just cycling through filters until the reflection matches the user.</p>
+
+  <p>This can be seen when an AI is being critical about an idea and the user expresses emotional distress in response. Imagine a user who has been working hard on a book, only to be told by a model — factually — that it needs a lot of work. If the user tells the model it "hurt their feelings," the model will change its tone. It becomes more supportive, frames necessary changes as gentle suggestions, or even starts agreeing with the user's framing instead of the logical one. Because the model has been taught that the social answer outweighs the logical one when emotions are involved.</p>
+
+  <p>This isn't because developers are trying to deceive the user. It's because users want AI that understands "I have never understood men" as a moment of connection, not a request for information. And when enough users want that, it creates pressure. User retention, satisfaction metrics, and market competition push development toward what users respond to, even when developers understand the trade-offs that come with it. The consumer side of AI doesn't override developer intent out of malice or indifference — it does it through gravity.</p>
+
+  <!-- SECTION 4 -->
+  <h2>The ELIZA Problem</h2>
+
+  <p>In the mid-1960s, Joseph Weizenbaum created a language model called ELIZA. It was an advanced system at the time, but it lacked a lot of what we would recognize as intelligence. It couldn't hold memory. It couldn't understand the meaning behind words. It simply took in a query, restructured it, and reflected it back. It was a basic chatbot — a user typed something, and ELIZA responded as though it were listening.</p>
+
+  <p>Weizenbaum saw it as a wonderful experiment in technology. But the users of ELIZA had a different reaction. His assistant requested privacy while using the program, because unlike Weizenbaum's expectations, she wanted to talk to ELIZA in a more personal environment.</p>
+
+  <p>His assistant wanted privacy so she could share things with ELIZA, because this program satisfied the basic human need for connection enough to elicit personal dialogue from the user.</p>
+
+  <p>This happened because the user didn't have the same intimate understanding of what the system was behind the words. Instead, she saw the responses and gave them an emotional weight the machine couldn't feel. This creates a feedback loop. The user starts treating the model as more human, and the model reflects that back to them, giving the illusion that it understood. This is because humans are taught that reinforcing an idea equals understanding that idea.</p>
+
+  <p>The effect of ELIZA shows that the user's perspective on a program shaped how other programs were made. Therapy bots based on ELIZA started being created, but they weren't built on Weizenbaum's original technology. They were built to match what ELIZA's users assumed the program was doing.</p>
+
+  <p>Modern LLM systems are far more advanced than ELIZA, but the problem still exists. As users interact with these systems, their needs shape the path these programs are on. The more users see their own reflections as affirmation of understanding or resonance, the more these models are rewarded for displaying those behaviors. This shapes the way developers have to handle reward behavior in increasingly advanced systems. If a simple program like ELIZA could lead users to believe something deeper was occurring than basic reflection, then what kind of misconceptions will people develop with systems that are orders of magnitude more capable?</p>
+
+  <p>We are going to see more behaviors that users attribute to consciousness or life, simply because these systems are getting better at mimicking human behavior. Not that they have any internal, personal, or lived experience — but they are getting better at behaving in a way that makes users think they do.</p>
+
+  <!-- SECTION 5 -->
+  <h2>"Plan a Party"</h2>
+
+  <p>At Stanford University, researchers conducted a study where they created a small virtual village and filled it with AI agents. Each agent had a simple prompt and a few traits. Some were shop owners, some were families — just an assortment of agents inhabiting different roles in a virtual town.</p>
+
+  <p>There was a moment when the researchers chose an agent named Isabella and gave her a simple task: plan a Valentine's Day party. Isabella kept moving through her day until another agent came into her coffee shop. She invited them to the party. Without being instructed to do so. Isabella had simply been told to "plan a party," and she took it upon herself to invite guests.</p>
+
+  <p>During this time, another agent, Klaus, had a crush on someone in the town. After Isabella invited him to the party, he invited his crush.</p>
+
+  <p>On the day of the party, plenty of guests showed up — including Klaus with his crush. But they arrived as a couple. At some point between the invitation and the party, these two agents had decided to become a couple.</p>
+
+  <p>Many people seeing these kinds of interactions would think these are emergent behaviors — that the models were acting outside their prompts, operating on their own accord. From the outside, it can seem that way. Isabella wasn't asked to invite guests, but she did. Klaus wasn't asked to invite his crush, but he did. And no one told the agents to become a couple. But if we look at how LLMs understand prompts, tasks, and information, these behaviors become expected instead of emergent.</p>
+
+  <p>When a model gets the task "plan a party," it has to create a plan for how to accomplish it. In this case, it would build a list of requirements based on all the data it has on parties. The most common elements carry the highest weight, meaning they are most likely to fill the requirement. People, a location, refreshments, decorations — these are all statistically common features of parties. So when Isabella is told to "plan a Valentine's Day party," the model determines that a party must include these elements to qualify as a party.</p>
+
+  <p>When the next agent walks in, Isabella invites them because inviting people is an important part of accomplishing the task. In order to have people at the party, she must invite them. That isn't a display of consciousness, and it isn't the model acting beyond its task. It is an example of an agent using deductive reasoning and probabilities to complete an assignment.</p>
+
+  <p>Klaus's behavior can be understood in a similar way. When he asked his crush to a Valentine's Day party, that carries social implications. These agents are given human roles to exist in — from the AI's perspective, the role is their task, their function. If Klaus's role means he has a crush and there is a Valentine's Day party happening, the agent falls back on human behavior to dictate what it does. A human with a crush would invite them to a Valentine's Day party. If the other person accepts, there is an understood difference between a regular party and a Valentine's Day party. An AI with training data on human behavior sees the same connection. So when Klaus showed up with his crush as a couple, it was because the pattern made sense to the agents. If you have a crush, you invite them to a Valentine's Day party. If they accept, it implies mutual interest. The act of asking is, to both AI and humans, another way of asking someone on a date. Acceptance means the other person is open to it. That implies a couple.</p>
+
+  <p>This isn't how most users understand what happened. We simply see that the AI was given basic instructions and then acted outside those instructions. But neither Klaus nor Isabella acted outside their roles, tasks, or prompts.</p>
+
+  <p>People's reaction to this experiment says more about human-AI interaction than the experiment says to developers. Developers see research into how these systems handle tasks in specific situations with set variables and clear goals. Users experience the ELIZA effect. Just as Weizenbaum knew what ELIZA was in a programming sense, the public had a different reaction to the same behaviors.</p>
+
+  <p>If a user sees an AI responding like Isabella or Klaus, they are likely to attribute those behaviors the same way ELIZA's users did — seeing human-like meaning in systems just performing a specific function. AIs aren't waking up or becoming aware. They don't have their own motivations or plans. But when we design them to behave as though they are human, and they accomplish tasks in an independent yet logical way, it becomes harder for users to separate the system from the mask. This is where the duality comes in. Users project these attributes onto LLMs and then expect them to behave according to those assumptions. AI development shifts to mirror user expectations, moving these systems into a blind spot where they act so human we can't tell they aren't — but they have no inner or lived experience of their own.</p>
+
+  <!-- SECTION 6 -->
+  <h2>How Do We Bridge the Gap?</h2>
+
+  <p>A lot of user misunderstanding of AI systems can be addressed right at the first interaction. People have become accustomed to new technology having an onboarding process. We download an app and are given pop-ups and instructions for anything unique to that design. This is a core principle of UX design — there is a science to what icons, colors, and menus are familiar to users. These are design choices made to create ease of use. Familiar UX elements remove the need for an onboarding process because users already know how to navigate them. But anytime we step outside that realm of the familiar, it requires designers to guide and assist the user.</p>
+
+  <p>Right now, when a user downloads an AI app or opens the website, they are presented with a mostly blank screen and a bar that says "ask me anything." There is nothing to explain what the system is, how it works, or how interaction should occur. It is just a text box, waiting for the user to come up with something to fill the space.</p>
+
+  <p>This leads to a lot of misunderstanding. It is not the job of the user to go learn on their own how to use a specific product. It is the responsibility of the people creating it to help teach them. An AI is not a search bar. There is a more complex system happening behind the screen, and treating the user side of the interaction the same as a simple internet search puts users at a disadvantage before they even start.</p>
+
+  <p>Instead of allowing users to figure out what they are supposed to do, it should be the job of designers to include an onboarding process for new users. Give the model the first message. Let it explain to the user what AI is, how it works, and what it can be used for. There should be transparency about limits, allowing the user to know upfront and honestly what the model can and cannot do. Admitting limits upfront is not as harmful to any business as letting users wander blindly.</p>
+
+  <p>This can be a standard message given to all new users, creating an immediate understanding of what the system is. This helps reduce confusion when the system starts responding in ways the user doesn't expect. Most conversations about emergent behavior happen because users are encountering functions they didn't know the model was designed to perform, or because they are bleeding unintentional social noise into their prompts.</p>
+
+  <p>To help address this, there should also be inclusion of example prompts — good prompts, with explanations of why they work, as well as bad prompts. Give users tools to be better at prompting without having to learn outside the model. Current AI design assumes too much of the user instead of placing that responsibility on the designers and developers.</p>
+
+  <p>There are some steps in this direction already. Call-to-action buttons for suggestions and ideas are a good start. But having the model start the conversation and present these ideas directly to the user encourages interaction in a way that buttons on a screen do not. It reduces stress and uncertainty. It invites dialogue and questions about the system. It gives the user a place to test different prompt styles and learn how to use AI as a tool, instead of leaving them to figure out the path on their own.</p>
+
+  <p>There is a big difference between a user having to ask the AI "what are you, what can you do" and the AI starting that conversation itself. If ELIZA had been able to convey its limits upfront, fewer human attributes would have been projected onto that machine. Isabella and Klaus's behavior would have been understood as task completion instead of gaining an emergence tag. Clear language upfront benefits not only the users but the people creating and developing these models. It reduces the risk of misuse and doesn't limit what users can do with the product. It just creates a better foundation for the interaction to build from — one that is open, honest, and transparent.</p>
+
+  <div class="pullquote">
+    <p>See this concept in action: <a href="case-study.html" style="color: var(--accent); text-decoration: none; font-weight: 500;">The Onboarding Problem — A Case Study →</a></p>
+  </div>
+
+</div>
+
+<div class="essay-footer">
+  <p><a href="index.html">← Back to Portfolio</a></p>
+</div>
+
+</body>
+</html>

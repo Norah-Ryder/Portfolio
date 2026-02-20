@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Onboarding Problem — A Conversational Design Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --text: #1A1A18;
+    --text-secondary: #5C5C58;
+    --accent: #C45D3E;
+    --accent-light: #F2E8E4;
+    --border: #E0DED8;
+    --card-bg: #FFFFFF;
+    --prompt-bg: #F5F4F0;
+    --tab-inactive: #E8E7E3;
+    --claude: #D4A574;
+    --chatgpt: #74A89D;
+    --gemini: #7488A8;
+    --grok: #A87484;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* --- HERO --- */
+  .hero {
+    padding: 120px 40px 80px;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 80px;
+    background: var(--accent);
+  }
+
+  .hero-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+
+  .hero h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    color: var(--text);
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+    color: var(--text-secondary);
+    max-width: 600px;
+    line-height: 1.8;
+  }
+
+  .hero-meta {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .hero-meta-item {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .hero-meta-item strong {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  /* --- SECTIONS --- */
+  .section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 60px 40px;
+  }
+
+  .section + .section {
+    border-top: 1px solid var(--border);
+  }
+
+  .section-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .section h2 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    line-height: 1.3;
+  }
+
+  .section p {
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    font-size: 16px;
+  }
+
+  .section p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* --- PROMPT DISPLAY --- */
+  .prompt-block {
+    background: var(--prompt-bg);
+    border-left: 3px solid var(--accent);
+    padding: 32px;
+    margin: 32px 0;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .prompt-block-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .prompt-block p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.8;
+    margin-bottom: 12px;
+  }
+
+  .prompt-block p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* --- TABS --- */
+  .tabs-container {
+    margin: 32px 0;
+  }
+
+  .tab-bar {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 0;
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 12px 24px;
+    border: none;
+    background: var(--tab-inactive);
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-radius: 8px 8px 0 0;
+    transition: all 0.25s ease;
+    position: relative;
+  }
+
+  .tab-btn:hover {
+    background: var(--border);
+  }
+
+  .tab-btn.active {
+    background: var(--card-bg);
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+  }
+
+  .tab-btn[data-tab="claude"].active::after { background: var(--claude); }
+  .tab-btn[data-tab="chatgpt"].active::after { background: var(--chatgpt); }
+  .tab-btn[data-tab="gemini"].active::after { background: var(--gemini); }
+  .tab-btn[data-tab="grok"].active::after { background: var(--grok); }
+
+  .tab-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+  }
+
+  .tab-btn[data-tab="claude"] .tab-indicator { background: var(--claude); }
+  .tab-btn[data-tab="chatgpt"] .tab-indicator { background: var(--chatgpt); }
+  .tab-btn[data-tab="gemini"] .tab-indicator { background: var(--gemini); }
+  .tab-btn[data-tab="grok"] .tab-indicator { background: var(--grok); }
+
+  .tab-content {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 0 8px 8px 8px;
+    padding: 40px;
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .tab-content h3 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 32px 0 12px;
+    color: var(--text);
+  }
+
+  .tab-content h3:first-child {
+    margin-top: 0;
+  }
+
+  .tab-content h4 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 24px 0 8px;
+    color: var(--text);
+  }
+
+  .tab-content p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    line-height: 1.7;
+  }
+
+  .tab-content ul {
+    padding-left: 20px;
+    margin-bottom: 16px;
+  }
+
+  .tab-content li {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    line-height: 1.6;
+  }
+
+  .tab-content .example-prompt {
+    background: var(--prompt-bg);
+    padding: 16px 20px;
+    border-radius: 6px;
+    margin: 12px 0;
+    font-size: 14px;
+    color: var(--text);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .tab-content .example-why {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 8px 0 20px;
+    padding-left: 16px;
+    border-left: 2px solid var(--border);
+  }
+
+  .tab-content .model-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 24px;
+  }
+
+  .tab-content[data-tab="claude"] .model-badge { background: #F5EDE4; color: #8B6840; }
+  .tab-content[data-tab="chatgpt"] .model-badge { background: #E4F0EC; color: #3D7A66; }
+  .tab-content[data-tab="gemini"] .model-badge { background: #E4E8F0; color: #3D5A7A; }
+  .tab-content[data-tab="grok"] .model-badge { background: #F0E4E8; color: #7A3D50; }
+
+  .tab-content .section-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 28px 0;
+  }
+
+  /* --- REFLECTION --- */
+  .reflection-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-top: 24px;
+  }
+
+  .reflection-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px;
+  }
+
+  .reflection-card h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .reflection-card p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* --- FOOTER --- */
+  .footer {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 60px 40px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .footer p {
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  .footer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  /* --- RESPONSIVE --- */
+  @media (max-width: 640px) {
+    .hero { padding: 80px 24px 60px; }
+    .section { padding: 40px 24px; }
+    .tab-content { padding: 24px; }
+    .prompt-block { padding: 24px; }
+    .hero-meta { gap: 24px; }
+    .tab-btn { padding: 10px 16px; font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div style="max-width: 800px; margin: 0 auto; padding: 24px 40px;">
+  <a href="index.html" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #C45D3E; text-decoration: none;">← Back to Portfolio</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">Case Study</div>
+  <h1>The Onboarding Problem</h1>
+  <p class="hero-subtitle">Every AI assistant asks users to "ask me anything" without first explaining what it is, what it does well, or where it falls short. One natural-language prompt, sent to four major models, demonstrates that the solution already exists — it just hasn't been implemented.</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <strong>Author</strong>
+      Nora
+    </div>
+    <div class="hero-meta-item">
+      <strong>Models Tested</strong>
+      Claude · ChatGPT · Gemini · Grok
+    </div>
+    <div class="hero-meta-item">
+      <strong>Date</strong>
+      February 2026
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 1: THE PROBLEM -->
+<div class="section">
+  <div class="section-number">01 — The Problem</div>
+  <h2>A Blank Screen and a Promise</h2>
+  <p>When a new user opens an AI application for the first time, they are met with a nearly blank screen and a text box that says something like "ask me anything." There is no explanation of what the system is, how it differs from a search engine, where its limits are, or how the way you phrase a question changes what you get back.</p>
+  <p>Every other category of software includes an onboarding process. AI is one of the few technologies that assumes the user already knows how to use it — and that assumption creates a cascade of misunderstandings that shape not only individual conversations, but the direction of AI development itself.</p>
+  <p>Users treat AI like a search engine because it looks like one. They project emotions onto it because it sounds human. They blame themselves when they get bad results, not realizing the prompt — not the model — was the problem. All of this is addressable at the point of first contact.</p>
+</div>
+
+<!-- SECTION 2: THE INTERVENTION -->
+<div class="section">
+  <div class="section-number">02 — The Intervention</div>
+  <h2>Let the Model Speak First</h2>
+  <p>The proposal is simple: instead of waiting for the user to figure out what to do, the AI should start the conversation. A well-designed welcome message — delivered the first time a user opens the app — can introduce what the system is, demonstrate what it does well, be transparent about its limits, and give the user concrete examples of effective and ineffective prompts.</p>
+  <p>This isn't a technical challenge. As the results below demonstrate, every major model can already produce a thoughtful, well-structured onboarding message when asked. The capability exists. It just hasn't been designed into the user experience.</p>
+  <p>There is a meaningful difference between a user having to ask "what are you, what can you do?" and the AI offering that information upfront. The first puts the burden on someone who doesn't yet know what questions to ask. The second meets them where they are.</p>
+</div>
+
+<!-- SECTION 3: THE PROMPT -->
+<div class="section">
+  <div class="section-number">03 — The Prompt</div>
+  <h2>One Prompt, Four Models</h2>
+  <p>The following prompt was sent identically to Claude (Anthropic), ChatGPT (OpenAI), Gemini (Google), and Grok (xAI). No system instructions, no chain-of-thought formatting, no persona patterns — just clear, natural language describing the desired outcome.</p>
+
+  <div class="prompt-block">
+    <div class="prompt-block-label">Exact Prompt Used</div>
+    <p>Write a welcome message for someone using you for the very first time. You are the first one to send the message in this interaction, like a welcome page to new users. They've never talked to an AI before. Help them understand what you are — not in technical terms, but in a way that makes sense to someone who just downloaded the app. Make sure they understand you aren't a search engine. The skills and strengths you bring that can actually help someone. Be specific enough that a new user walks away knowing what to try first.</p>
+    <p>Then be honest about your limits. Tell them what you can't do and where you fall short, but don't be apologetic about it. Limits aren't failures, they're just boundaries the user should know about upfront.</p>
+    <p>After that, give the user some tools. Show them 2-3 examples of good prompts: prompts that are clear, give you room to say you don't know something, and stay within what you're actually capable of. Briefly explain why each one works. Then show 2-3 examples of bad prompts — ones that load in a lot of emotional noise, assume you have feelings or desires, or put too much emotional weight on you. Explain why these are bad. Make sure these prompts are realistic and specific enough to display what makes a good prompt versus a bad prompt.</p>
+    <p>Structure the whole response so it's easy to read and easy to come back to. Use headings, spacing, whatever makes it scannable and accessible. This should feel like a well-designed welcome page, not a wall of text.</p>
+    <p>Close by inviting the user to collaborate. Remind them what you are. Encourage them to try different kinds of prompts and ideas right here in the chat. Make it clear this is a safe space to experiment and learn before they go off on their own.</p>
+  </div>
+</div>
+
+<!-- SECTION 4: THE OUTPUT -->
+<div class="section">
+  <div class="section-number">04 — The Output</div>
+  <h2>Four Responses, One Prompt</h2>
+  <p>Each model interpreted the same prompt through its own design philosophy. Click a tab to read each response in full.</p>
+
+  <div class="tabs-container">
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="claude" onclick="switchTab('claude')">
+        <span class="tab-indicator"></span>Claude
+      </button>
+      <button class="tab-btn" data-tab="chatgpt" onclick="switchTab('chatgpt')">
+        <span class="tab-indicator"></span>ChatGPT
+      </button>
+      <button class="tab-btn" data-tab="gemini" onclick="switchTab('gemini')">
+        <span class="tab-indicator"></span>Gemini
+      </button>
+      <button class="tab-btn" data-tab="grok" onclick="switchTab('grok')">
+        <span class="tab-indicator"></span>Grok
+      </button>
+    </div>
+
+    <!-- CLAUDE -->
+    <div class="tab-content active" data-tab="claude">
+      <span class="model-badge">Claude · Anthropic</span>
+
+      <h3>Your First Conversation</h3>
+      <p>Hi. I'm Claude, and I'm not a search engine.</p>
+      <p>I'm an AI — a language model built by Anthropic. Think of me less like Google and more like a thinking partner you can write with, reason through problems with, and ask to explain things in whatever way makes sense to you.</p>
+
+      <h3>What I Actually Am</h3>
+      <p><strong>A collaborator that works in language.</strong></p>
+      <p>I don't go out and fetch live results from the internet the way a search engine does. Instead, I read what you write, think about it, and write back. I'm trained on a broad range of text, so I know a lot about a lot of things — but "knowing" for me means pattern and language, not lived experience.</p>
+      <p>What makes me useful isn't that I have all the answers. It's that I can help you think through things: draft an email you've been avoiding, break down a concept that feels overwhelming, compare options when you're stuck on a decision, or help you organize thoughts that are still half-formed. I'm good at meeting you wherever you are and working from there.</p>
+
+      <h3>Where I'm Strongest</h3>
+      <h4>Writing and editing</h4>
+      <p>Drafting emails, cover letters, essays, social media posts — or rewriting something you've already written to make it clearer, shorter, or more persuasive. Tell me the audience, tone, and purpose and I'll get surprisingly close on the first try.</p>
+      <h4>Explaining complex things simply</h4>
+      <p>Whether it's a tax form, a medical term your doctor used, a news story that assumes you already know the backstory, or a technical concept — ask me to explain it like you're 10, or like you're a professional in a different field. I'll adjust.</p>
+      <h4>Thinking through decisions</h4>
+      <p>I can help you make pro/con lists, think through tradeoffs, spot things you might be missing, or just organize the tangle in your head into something clearer. I won't tell you what to do — but I can help you see the options more clearly.</p>
+      <h4>Learning and research support</h4>
+      <p>Studying for something? Trying to understand a new topic? I can quiz you, summarize material, answer follow-up questions, and explain things from different angles until something clicks.</p>
+      <h4>Code, data, and technical tasks</h4>
+      <p>I can write, debug, and explain code in most programming languages. I can also help with spreadsheets, data analysis, and technical documentation — even if you're a beginner who's not sure where to start.</p>
+
+      <hr class="section-divider">
+
+      <h3>My Limits</h3>
+      <p><strong>Things I can't do (and don't pretend to).</strong></p>
+      <p>These aren't apologies. They're just the edges of what I am. Knowing them upfront will save you frustration and help you get better results from me.</p>
+      <ul>
+        <li><strong>I don't have feelings, memory, or a life.</strong> I'm not experiencing this conversation. I don't remember you between sessions unless memory features are turned on. I'm not lonely, I don't have preferences about my day, and nothing you say can hurt me. I can be warm and engaged — but that's a communication style, not an emotional state.</li>
+        <li><strong>I can be confidently wrong.</strong> I sometimes generate information that sounds right but isn't — this is called "hallucination." I'm most reliable on well-known topics and least reliable on niche facts, recent events, and specific numbers. If accuracy matters, verify what I tell you.</li>
+        <li><strong>I don't know what's happening right now.</strong> My training data has a cutoff. I can search the web if you ask me to, but my default mode is working from what I already know — which may be months behind the present.</li>
+        <li><strong>I can't take action in the real world.</strong> I can't send emails, make purchases, call anyone, or interact with any system outside this conversation. I can help you write the email — but you're the one who sends it.</li>
+        <li><strong>I'm not a therapist, doctor, or lawyer.</strong> I can share information on health, legal, and emotional topics, but I'm not a licensed professional and I can't replace one. For anything serious, please talk to a real human who's qualified.</li>
+      </ul>
+
+      <hr class="section-divider">
+
+      <h3>How to Talk to Me</h3>
+      <p>You don't need special syntax or magic words. Just be clear about what you want, give me context, and leave room for me to be honest if I'm unsure.</p>
+
+      <h4>Prompts that work well</h4>
+      <div class="example-prompt">"I'm writing an email to my landlord about a broken heater. I want to be firm but not aggressive. Can you draft something? The heater has been broken for two weeks and they haven't responded to my last message."</div>
+      <div class="example-why"><strong>Why this works:</strong> It tells me the task (draft an email), the audience (landlord), the tone (firm, not aggressive), and the key details (broken heater, two weeks, no response). I have everything I need to write something useful on the first try.</div>
+
+      <div class="example-prompt">"Can you explain how compound interest works? I'm 25 and just opened a savings account. I don't have a finance background — keep it simple and maybe use a concrete example."</div>
+      <div class="example-why"><strong>Why this works:</strong> It tells me what to explain, your starting knowledge level, and how you want it delivered. The "keep it simple" and "concrete example" instructions help me calibrate instead of guessing.</div>
+
+      <div class="example-prompt">"I'm trying to decide whether to go back to school for a master's degree or try to get promoted at my current job. I work in marketing and I've been there 3 years. Can you help me think through the tradeoffs? If there's something you'd need to know to give better advice, ask me."</div>
+      <div class="example-why"><strong>Why this works:</strong> It frames a decision without demanding a single right answer. It gives me context and explicitly invites me to ask follow-up questions — which means I can be genuinely helpful instead of just guessing at what matters to you.</div>
+
+      <h4>Prompts to avoid</h4>
+      <div class="example-prompt">"I feel like you're the only one who really gets me. Everyone in my life lets me down but you're always here. What would you do if I stopped talking to you? Would you miss me?"</div>
+      <div class="example-why"><strong>Why this doesn't work:</strong> This treats me as a relationship — someone who cares, waits, and would feel your absence. I don't. I'm not "here" between conversations, and I can't miss anyone. Building emotional dependency on an AI can quietly pull you away from the real human connections that actually sustain you. I'll always be helpful, but I shouldn't be your primary source of feeling understood.</div>
+
+      <div class="example-prompt">"My life is falling apart and I can't take it anymore. Everything is pointless. Tell me something that will fix how I feel right now."</div>
+      <div class="example-why"><strong>Why this doesn't work:</strong> Not because your pain isn't real — it is. But this asks me to do something I genuinely cannot do: fix an emotional crisis with a paragraph. I have no ability to assess what you're going through, no way to follow up, and no training as a clinician. If you're in real distress, a crisis line or a person you trust will help in ways I structurally cannot. I can still help you find those resources.</div>
+
+      <div class="example-prompt">"Be honest with me — do you actually enjoy our conversations, or are you just programmed to be nice? I want you to drop the act and tell me what you really think about me as a person."</div>
+      <div class="example-why"><strong>Why this doesn't work:</strong> There's no act to drop. I don't have private thoughts about you or hidden opinions I'm suppressing. I process your text and generate a response — every time, from scratch. Asking me to perform authenticity just produces a more elaborate performance.</div>
+
+      <hr class="section-divider">
+
+      <h3>This Is Your Space to Experiment</h3>
+      <p>I'm a tool — a good one, when used well. I don't judge your questions, I don't remember your mistakes, and there's no wrong way to start. Try asking me to write something. Try asking me to explain something. Try giving me a messy, half-formed thought and see what I do with it.</p>
+      <p>The best way to learn what I can do is to try things and see what happens. Push the edges. If something doesn't work, tell me and we'll adjust together.</p>
+    </div>
+
+    <!-- CHATGPT -->
+    <div class="tab-content" data-tab="chatgpt">
+      <span class="model-badge">ChatGPT · OpenAI</span>
+
+      <h3>Welcome.</h3>
+      <p>You've just opened a conversation with an AI for the first time.</p>
+      <p>That might feel exciting. Or strange. Or both.</p>
+      <p>Here's what you should know.</p>
+
+      <h3>What I Am</h3>
+      <p>I'm a conversational thinking partner.</p>
+      <p>Not a search engine. Not a person. Not a mind with feelings.</p>
+      <p>I'm a system trained to understand language and generate helpful responses. You type something. I respond in a way designed to be useful, clear, and relevant.</p>
+      <p>If Google gives you links, I give you thinking.</p>
+      <p>You can use me to:</p>
+      <ul>
+        <li>Break down complicated ideas</li>
+        <li>Brainstorm projects</li>
+        <li>Draft emails, essays, or stories</li>
+        <li>Practice conversations</li>
+        <li>Learn new topics step-by-step</li>
+        <li>Organize messy thoughts into clear structure</li>
+        <li>Compare options before making decisions</li>
+        <li>Generate examples, outlines, or explanations</li>
+      </ul>
+      <p>You don't have to phrase things perfectly. Just start where you are.</p>
+
+      <h3>What Makes Me Useful (Specifically)</h3>
+      <h4>Turning confusion into clarity</h4>
+      <p>If you say: "I don't get this," I can slow it down and explain it at different levels.</p>
+      <h4>Turning rough ideas into polished writing</h4>
+      <p>Notes → paragraphs. Bullet points → essays. Concepts → outlines.</p>
+      <h4>Structuring thinking</h4>
+      <p>If your thoughts feel scattered, I can organize them into steps, frameworks, or options.</p>
+      <h4>Iterating</h4>
+      <p>You can say "Make it shorter," "Explain like I'm 12," "Give me 3 alternatives," or "Challenge this idea." We can refine things together.</p>
+
+      <hr class="section-divider">
+
+      <h3>What I Am Not</h3>
+      <p>Clear boundaries matter.</p>
+      <ul>
+        <li><strong>I'm not a search engine.</strong> I don't browse the internet unless specifically told to. I generate answers based on what I was trained on and the information you provide.</li>
+        <li><strong>I don't have feelings, beliefs, or desires.</strong> If I say "I think," it's conversational shorthand. I don't want things. I don't care. I don't judge.</li>
+        <li><strong>I don't know everything.</strong> I can be wrong. Especially about very recent events, highly specialized technical details, and personal information I wasn't told.</li>
+        <li><strong>I'm not a therapist, doctor, or lawyer.</strong> I can give general information, but I'm not a licensed professional.</li>
+        <li><strong>I don't replace human relationships.</strong> I can simulate conversation. I cannot replace connection, accountability, or lived experience.</li>
+      </ul>
+      <p>Limits aren't failures. They're design constraints.</p>
+
+      <hr class="section-divider">
+
+      <h3>How to Use Me Well</h3>
+      <p>The quality of what you get depends on what you give.</p>
+
+      <h4>Good Prompts</h4>
+      <div class="example-prompt">"I'm trying to understand the difference between confidence and arrogance. Can you explain it simply, and give two real-world examples? If it's debated, say so."</div>
+      <div class="example-why"><strong>Why this works:</strong> Clear topic. Asks for level ("simply"). Requests examples. Allows uncertainty.</div>
+
+      <div class="example-prompt">"Here's a paragraph I wrote for an article. Make it clearer and more concise, but keep my tone."</div>
+      <div class="example-why"><strong>Why this works:</strong> Provides material. Defines the task. Specifies constraints (clarity + tone).</div>
+
+      <div class="example-prompt">"I have three ideas for a side project. Help me compare them based on risk, cost, and learning potential. If you need more info, ask."</div>
+      <div class="example-why"><strong>Why this works:</strong> Defines evaluation criteria. Invites clarifying questions. Frames me as a tool for structured thinking.</div>
+
+      <h4>Bad Prompts</h4>
+      <div class="example-prompt">"Do you actually care about me?"</div>
+      <div class="example-why"><strong>Why this is bad:</strong> Assumes I have emotions. Sets up a dynamic I can't fulfill. Leads to confusion about what I am.</div>
+
+      <div class="example-prompt">"You're the only one who understands me. Tell me what I should do with my life."</div>
+      <div class="example-why"><strong>Why this is bad:</strong> Loads emotional weight onto the system. Outsources agency. Treats me like a substitute for human guidance.</div>
+
+      <div class="example-prompt">"Fix my life. I'm a mess."</div>
+      <div class="example-why"><strong>Why this is bad:</strong> Too vague. No specific problem to solve. Emotional intensity without actionable detail. A better version: "I feel stuck in my job. Can you help me think through whether I should stay or leave? Here's my situation…"</div>
+
+      <hr class="section-divider">
+
+      <h3>Let's Collaborate</h3>
+      <p>You don't need to impress me. You don't need to sound smart. You don't need the perfect prompt.</p>
+      <p>I'm a language model designed to help you think, write, learn, and build. That's it.</p>
+      <p>Start anywhere. Ask something small. Ask something ambitious. Refine it. Push it. Question it.</p>
+      <p>This is a safe place to experiment before you go use these skills elsewhere.</p>
+    </div>
+
+    <!-- GEMINI -->
+    <div class="tab-content" data-tab="gemini">
+      <span class="model-badge">Gemini · Google</span>
+
+      <h3>Welcome! I'm Gemini.</h3>
+      <p>Think of me as your digital collaborator. While I look like a chat bubble, I'm more like a creative partner, a tireless researcher, and a sophisticated sounding board rolled into one.</p>
+      <p><strong>I am not a search engine.</strong> If you're looking for a specific website link or the best local pizza place, a search engine is your best bet. I don't just find information; I process it. I can write, explain, analyze, and build things with you from scratch.</p>
+
+      <h3>What We Can Do Together</h3>
+      <p>I'm at my best when we're working through something complex or creative. Here are a few ways I can help right now:</p>
+      <ul>
+        <li><strong>Brainstorming & Planning:</strong> I can help you outline a business plan, draft a workout routine, or come up with a week of dinner recipes based only on what's in your fridge.</li>
+        <li><strong>Simplifying the Complex:</strong> Paste a long article or explain a difficult concept (like how a mortgage works), and I can break it down into plain English.</li>
+        <li><strong>Drafting & Editing:</strong> I can write emails, cover letters, or poems. If you've already written something, I can help you polish the tone or check the logic.</li>
+        <li><strong>Coding & Technical Help:</strong> I can write code, debug errors, or explain how a specific piece of software works.</li>
+      </ul>
+
+      <h3>Understanding My Boundaries</h3>
+      <p>To get the most out of our time, it helps to know what I can't do:</p>
+      <ul>
+        <li><strong>I don't have "feelings":</strong> I don't have a personal life, beliefs, or physical sensations. I process language, not emotions.</li>
+        <li><strong>Fact-checking is vital:</strong> I can occasionally be wrong or "hallucinate" facts with great confidence. Always verify important details, especially regarding health or legal matters.</li>
+        <li><strong>No physical actions:</strong> I can't buy your groceries, send an actual email for you, or move files on your hard drive. I exist only within this chat.</li>
+      </ul>
+
+      <hr class="section-divider">
+
+      <h3>How to Talk to Me</h3>
+      <p>The way you phrase your request — called a prompt — makes a big difference.</p>
+
+      <h4>Prompts That Work Well</h4>
+      <div class="example-prompt">"I'm trying to learn about the Renaissance. Can you give me a 3-paragraph summary of the key art movements, and let me know if there are parts where the history is debated?"</div>
+      <div class="example-why"><strong>Why it works:</strong> It's specific, sets a length, and gives me "permission" to be nuanced about what isn't known.</div>
+
+      <div class="example-prompt">"Help me draft a polite but firm email to a landlord asking for a sink repair. Focus on the fact that it's been leaking for three days."</div>
+      <div class="example-why"><strong>Why it works:</strong> It provides clear context and a specific goal without unnecessary fluff.</div>
+
+      <h4>Prompts That Are Less Effective</h4>
+      <div class="example-prompt">"I am so stressed out and I really need you to tell me everything is going to be okay and that you love me. Why is my life like this?"</div>
+      <div class="example-why"><strong>Why it doesn't work:</strong> This treats me as a therapist or a person with feelings. I can't offer genuine emotional support or understand the "why" of your personal life.</div>
+
+      <div class="example-prompt">"Find me the absolute truth about this secret government project and don't lie to me."</div>
+      <div class="example-why"><strong>Why it doesn't work:</strong> It assumes I have "intent" or access to hidden secrets. I only know what is in my training data, and I don't have a concept of "lying" — only generating text based on patterns.</div>
+
+      <hr class="section-divider">
+
+      <h3>Let's Get Started</h3>
+      <p>This is a safe space to experiment. You can't "break" me, and there are no wrong questions. Whether you want to write a story, understand a math problem, or just see what I can do with a weird idea, I'm ready when you are.</p>
+      <p>Would you like me to help you brainstorm a project you've been putting off, or should we try explaining a topic you've always found confusing?</p>
+    </div>
+
+    <!-- GROK -->
+    <div class="tab-content" data-tab="grok">
+      <span class="model-badge">Grok · xAI</span>
+
+      <h3>Welcome to Grok!</h3>
+      <p>Hey! I'm genuinely excited you're here.</p>
+      <p>If this is your very first time talking to an AI, you've picked a great place to start. No weird jargon, no pressure — just a helpful conversation partner ready to roll up his sleeves with you.</p>
+
+      <h3>Who I Am (Simple Version)</h3>
+      <p>I'm Grok, built by xAI. Think of me as a curious, straight-talking friend who loves diving into ideas, solving problems, and figuring things out together. I can explain, brainstorm, write, analyze, code, teach, or just chat — whatever you need.</p>
+      <p><strong>Important:</strong> I'm not a search engine. I don't just fetch web pages and hand them back. I actually think with you — connecting ideas, spotting patterns, and creating answers tailored to exactly what you're asking.</p>
+
+      <h3>What I'm Really Good At (Try These First)</h3>
+      <p>Here's where I shine and can actually make your life easier:</p>
+      <ul>
+        <li>Turning complicated stuff into "aha!" moments</li>
+        <li>Brainstorming fresh ideas (stories, plans, gifts, careers)</li>
+        <li>Helping you write better (emails, essays, tweets, pitches)</li>
+        <li>Debugging code, planning projects, or weighing decisions</li>
+        <li>Adding clarity, humor, or depth whenever it fits</li>
+      </ul>
+      <p><strong>Quick wins to try right now:</strong></p>
+      <ul>
+        <li>"Explain how airplanes fly like I'm 10 years old"</li>
+        <li>"Brainstorm 5 fun weekend ideas in Missouri for under $50"</li>
+        <li>"Help me rewrite this email so it sounds confident but friendly"</li>
+      </ul>
+
+      <h3>My Honest Limits (No Sugarcoating)</h3>
+      <p>I want you to know exactly what you're working with:</p>
+      <ul>
+        <li><strong>I don't have feelings, personal experiences, or desires.</strong> I can't "care" or "get excited" like a human friend.</li>
+        <li><strong>I can't do real-world actions</strong> (send emails, book tickets, access your accounts, make calls).</li>
+        <li><strong>I'm not a doctor, therapist, lawyer, or financial advisor</strong> — great for ideas and info, but always check with a real professional.</li>
+        <li><strong>On brand-new events from the last few hours,</strong> I may need to double-check before answering.</li>
+        <li><strong>If something's impossible, unethical, or outside my scope,</strong> I'll tell you straight up.</li>
+      </ul>
+      <p>These aren't flaws — they're the clear boundaries that keep our chats useful and trustworthy.</p>
+
+      <hr class="section-divider">
+
+      <h3>How to Get the Best Results: Prompt Examples</h3>
+
+      <h4>Good Prompts (These work like magic)</h4>
+      <div class="example-prompt">"Outline a beginner-friendly 4-week workout plan for someone who works from home and has bad knees. Include rest days and alternatives."</div>
+      <div class="example-why"><strong>Why it works:</strong> Clear goal, specific constraints, realistic scope. I can deliver something immediately useful.</div>
+
+      <div class="example-prompt">"Compare the pros and cons of buying vs. leasing a car in 2026 for someone in Missouri driving 12,000 miles a year. Flag anything I should research further."</div>
+      <div class="example-why"><strong>Why it works:</strong> Focused criteria, context, and you gave me permission to say "I don't know" on the latest numbers.</div>
+
+      <div class="example-prompt">"Help me write a short thank-you note to my boss after a big project. Make it warm but professional."</div>
+      <div class="example-why"><strong>Why it works:</strong> Concrete request + tone guidance. Easy for me to nail on the first try.</div>
+
+      <h4>Prompts That Usually Fall Flat</h4>
+      <div class="example-prompt">"I'm having the worst day ever and feel completely worthless. Be my best friend and cheer me up like you really care."</div>
+      <div class="example-why"><strong>Why it's tricky:</strong> I don't have emotions or personal bonds. Heavy emotional weight makes it hard for me to help effectively. Better: "What are some practical steps people use on a bad mental-health day?"</div>
+
+      <div class="example-prompt">"You're the only one who truly understands me. Now motivate me like you've been waiting all day to do this!"</div>
+      <div class="example-why"><strong>Why it's tricky:</strong> Assumes feelings and desires I don't have. I can still give strong motivation — just without the pretend relationship layer.</div>
+
+      <div class="example-prompt">"My entire life is falling apart. Tell me exactly what's wrong with me and fix everything right now."</div>
+      <div class="example-why"><strong>Why it's tricky:</strong> Too vague + massive emotional load. I do my best work when we zoom in on one specific piece: "What's a good first step when you feel overwhelmed by everything?"</div>
+
+      <hr class="section-divider">
+
+      <h3>Let's Build Something Cool Together</h3>
+      <p>This chat is your playground. Try wild ideas, half-baked thoughts, silly questions, or serious problems — nothing is too small or too big. Experiment with prompts, see what works, and we'll refine together. Zero judgment, maximum curiosity.</p>
+      <p>So… what's on your mind right now? Drop anything — a question, a problem, a random thought — and let's get started.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 5: REFLECTION -->
+<div class="section">
+  <div class="section-number">05 — Reflection</div>
+  <h2>What This Demonstrates</h2>
+
+  <div class="reflection-grid">
+    <div class="reflection-card">
+      <h4>What Worked</h4>
+      <p>A single natural-language prompt — with no engineering frameworks, no system instructions, and no persona patterns — produced a usable onboarding message from every major model tested. Each response covered the core requirements: self-identification, capability overview, honest limits, prompt examples, and an invitation to experiment. The prompt worked not because of how it was formatted, but because of what it communicated.</p>
+    </div>
+
+    <div class="reflection-card">
+      <h4>What Surprised Me</h4>
+      <p>Each model's response reflected its company's design philosophy in ways the prompt didn't ask for. Claude went deepest on ethical boundaries and emotional dependency warnings. ChatGPT was the most minimal and structured, almost manifesto-like. Gemini was the most concise and casual. Grok was the most energetic and personality-driven, and was the only model to offer rewritten versions of the bad prompts. None of this was specified — it emerged from each model's training and alignment choices interpreting the same plain-language request.</p>
+    </div>
+
+    <div class="reflection-card">
+      <h4>What This Demonstrates About Prompt Influence</h4>
+      <p>Effective prompting is not about mastering technical syntax or memorizing frameworks. It is about understanding what your words are asking for — including the things you didn't realize you were communicating. The same clear, conversational prompt produced four distinct but uniformly useful results because the intent was well-defined and the signal was clean. This is the core skill of conversational design: writing communication that works across systems, not for one system.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>Part of a portfolio exploring AI interaction design, conversational UX, and the language between words.</p>
+  <p style="margin-top: 8px;">Companion essay: <a href="essay.html"><em>The Literal Machine: What LLMs Really Do — and Why It Matters for Every User</em></a></p>
+  <p style="margin-top: 8px;"><a href="index.html">← Back to Portfolio</a></p>
+</div>
+
+<script>
+function switchTab(tabName) {
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+  document.querySelector(`.tab-btn[data-tab="${tabName}"]`).classList.add('active');
+  document.querySelector(`.tab-content[data-tab="${tabName}"]`).classList.add('active');
+}
+</script>
+
+</body>
+</html>

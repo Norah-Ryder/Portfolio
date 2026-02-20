@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nora — AI Interaction Design Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --text: #1A1A18;
+    --text-secondary: #5C5C58;
+    --accent: #C45D3E;
+    --accent-light: #F2E8E4;
+    --border: #E0DED8;
+    --card-bg: #FFFFFF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* --- HEADER --- */
+  .header {
+    padding: 120px 0 80px;
+    position: relative;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 80px;
+    background: var(--accent);
+  }
+
+  .header-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+
+  .header h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: clamp(36px, 5vw, 52px);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 28px;
+  }
+
+  .header-bio {
+    font-size: 17px;
+    color: var(--text-secondary);
+    max-width: 580px;
+    line-height: 1.8;
+  }
+
+  /* --- WORK --- */
+  .work-section {
+    padding: 60px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .work-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 32px;
+  }
+
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .work-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 36px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .work-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  }
+
+  .work-card::after {
+    content: '→';
+    position: absolute;
+    top: 36px;
+    right: 36px;
+    font-size: 20px;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: all 0.3s ease;
+  }
+
+  .work-card:hover::after {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .work-card-type {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .work-card h3 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.3;
+    padding-right: 40px;
+  }
+
+  .work-card p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* --- CREDENTIALS --- */
+  .credentials-section {
+    padding: 60px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .credentials-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+
+  .credentials-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .credential-item {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .credential-item strong {
+    display: block;
+    color: var(--text);
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+
+  /* --- CONTACT --- */
+  .contact-section {
+    padding: 60px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .contact-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .contact-section p {
+    font-size: 16px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .contact-section a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+
+  .contact-section a:hover {
+    border-bottom-color: var(--accent);
+  }
+
+  /* --- FOOTER --- */
+  .footer {
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .footer p {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 640px) {
+    .page { padding: 0 24px; }
+    .header { padding: 80px 0 60px; }
+    .credentials-list { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-label">Portfolio</div>
+    <h1>Nora</h1>
+    <p class="header-bio">AI interaction researcher and conversational designer exploring the space between how humans communicate and how machines interpret. Focused on building interfaces that respect what AI actually is while giving users the experience they need.</p>
+  </div>
+
+  <!-- WORK -->
+  <div class="work-section">
+    <div class="work-label">Selected Work</div>
+    <div class="work-grid">
+
+      <a href="essay.html" class="work-card">
+        <div class="work-card-type">Narrative Essay</div>
+        <h3>The Literal Machine</h3>
+        <p>What LLMs really do — and why it matters for every user. An accessible exploration of how AI interprets language, why users misunderstand these systems, and what can be done about it at the point of first contact.</p>
+      </a>
+
+      <a href="case-study.html" class="work-card">
+        <div class="work-card-type">Case Study</div>
+        <h3>The Onboarding Problem</h3>
+        <p>One natural-language prompt sent to four major AI models demonstrates that effective user onboarding already exists within these systems. It just hasn't been designed into the experience yet.</p>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- CREDENTIALS -->
+  <div class="credentials-section">
+    <div class="credentials-label">Credentials</div>
+    <div class="credentials-list">
+      <div class="credential-item">
+        <strong>CXD1 — Conversational Design</strong>
+        Conversational Design Institute
+      </div>
+      <div class="credential-item">
+        <strong>CXD2 — Advanced Conversational Design</strong>
+        Conversational Design Institute
+      </div>
+      <div class="credential-item">
+        <strong>Google UX Design Certificate</strong>
+        Google / Coursera
+      </div>
+      <div class="credential-item">
+        <strong>AI Interaction Research</strong>
+        Independent — Published 2026
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="contact-section">
+    <div class="contact-label">Contact</div>
+    <p>Interested in working together or discussing AI interaction design? Reach out at <a href="mailto:your@email.com">your@email.com</a></p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>© 2026 Nora</p>
+  </div>
+
+</div>
+
+</body>
+</html>

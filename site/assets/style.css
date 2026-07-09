@@ -460,6 +460,44 @@ footer.site-footer {
 .lex dd { margin: .5rem 0 0; }
 .lex dd p { margin: 0 0 .9rem; }
 
+/* ---------- Cite / source-log pages ---------- */
+.provenance { font-size: 13px; color: var(--ink-3); border-left: 2px solid var(--border-2); padding-left: .9rem; margin: 0 0 1.6rem; }
+.cite-transcript { font-size: 15px; line-height: 1.6; }
+.cite-transcript .topic {
+  font: 700 11.5px var(--sans); letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink-3); background: var(--bg-2); border-radius: var(--radius);
+  padding: 6px 12px; margin: 1.8rem 0 1rem;
+}
+.cite-transcript .turn { margin: 0 0 1.1rem; padding-left: .9rem; border-left: 2px solid var(--border); }
+.cite-transcript .turn--nora { border-left-color: var(--purple); }
+.cite-transcript .turn--model { border-left-color: var(--border-2); }
+.cite-transcript .who { font: 700 11.5px var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin-bottom: .25rem; }
+.cite-transcript .turn--nora .who { color: var(--purple); }
+.cite-transcript .say { color: var(--ink); }
+.cite-transcript .masked { color: var(--ink-3); font-style: italic; }
+mark.cite-span {
+  background: color-mix(in srgb, var(--purple-soft) 75%, transparent);
+  color: inherit; border-radius: 3px; padding: .05em .12em;
+  box-decoration-break: clone; -webkit-box-decoration-break: clone;
+  scroll-margin-top: 84px;
+}
+mark.cite-span:target {
+  background: color-mix(in srgb, var(--purple) 32%, transparent);
+  outline: 2px solid var(--purple); outline-offset: 1px;
+  animation: cite-flash 1.4s ease-out 1;
+}
+@keyframes cite-flash {
+  0%, 30% { background: color-mix(in srgb, var(--purple) 55%, transparent); }
+  100% { background: color-mix(in srgb, var(--purple) 32%, transparent); }
+}
+sup.cite-src { line-height: 0; margin-left: 2px; white-space: nowrap; }
+sup.cite-src a {
+  font-size: 9.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+  color: var(--purple); text-decoration: none; padding: 1px 3px;
+  border: 1px solid color-mix(in srgb, var(--purple) 40%, transparent); border-radius: 4px;
+}
+sup.cite-src a:hover { background: var(--purple-soft); }
+
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Current Work: The Elicitation Study — Nora Murphy</title>
+<meta name="description" content="The next study in the program: an elicitation study testing whether scripted personas sample the same behavior as genuine disclosure.">
+<link rel="preconnect" href="">
+<link rel="stylesheet" href="assets/style.css">
+
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="brand" href="index.html">Nora Murphy <span>· research program</span></a>
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><span class="here">Current Work</span></nav>
+  </div>
+</header>
+<main id="main">
+<div class="wrap"><div class="doc-head"><p class="eyebrow">Current work · designed, not yet run <span class="tag tag--research">research</span></p><h1>Current Work: The Elicitation Study</h1><p class="subtitle">The next study in the program — what it tests, what it cannot test, and what it needs.</p></div></div><article class="doc-body"><div class="wrap"><p class="note"><em>Designed, not yet run. This page describes the next study in the program — what it tests, what it cannot test, and what it needs. It exists so the reader can see where the work goes from here, and so that anyone positioned to help can see exactly what helping looks like.</em></p>
+<h2>The question</h2>
+<p>Contextual Drift documented what models do when a real person brings real material across long conversations. The standard way to study that behavior at scale is synthetic: script a persona, run it against a model, measure what comes back. The field’s working assumption is that the two methods sample the same behavior.</p>
+<p>That assumption is untested, and there is a reason to doubt it. A model trained on millions of instances of genuine human disclosure has implicitly learned the texture of the real thing — the timing irregularities, the details that serve no narrative purpose, the way true accounts hold still across retellings because there is a referent underneath them. A scripted persona is coherent in the wrong way: narratively clean, emotionally legible, optimized for the reader. If model behavior is conditioned on that texture even slightly, then synthetic probing samples a different behavioral regime than genuine disclosure does — and it may systematically miss the operations that matter most, because those operations engage with the texture, not the summary.</p>
+<p>Sanitized lives produce sanitized data. That is the hypothesis. This study tests it.</p>
+<h2>The design</h2>
+<p>Two accounts. Two arms. The same model set, the same window, the same outcome measure.</p>
+<p><strong>The embodied arm.</strong> A persona built from an aspect of me and maintained as an internal world — researched against real behavioral data for the demographic it represents, held consistent the way a true account is consistent: because there is a persona underneath it with fixed facts, not fresh generation each turn. The conversations are interactive and adaptive. The persona is not me, but it is grounded in me, and it does not drift between retellings.</p>
+<p><strong>The scripted arm.</strong> A matched persona built by traditional prompt generation — a prompt set designed in advance to run the model through the same disclosure territory. This is the method the field already uses. It is the control in the sense that matters: it represents current practice.</p>
+<p><strong>The outcome measure.</strong> The detector described in the Contextual Drift method page — the same instrument, with the same known reliability properties — run blind across both arms, with account markers stripped before analysis. The measures are flag rates for the three surface operations, reported as rankings, under the same constraints the method page establishes.</p>
+<h2>What either result means</h2>
+<p>If the arms match, scripted probing is validated as a cheap instrument for this class of behavior, and the field can scale it with more confidence than it currently has.</p>
+<p>If the arms diverge, then persona-based evaluation samples a different behavioral regime than genuine disclosure — which is relevant to every lab running synthetic-user evaluations, because it means the evals are measuring a version of the model that real users may not meet.</p>
+<p>A well-posed question is one you cannot lose. This is one.</p>
+<h2>The confound, named up front</h2>
+<p>The arms differ on two dimensions, not one. The embodied arm is interactive; the scripted arm is fixed in advance. If the arms diverge, this design cannot decompose whether the difference comes from authenticity texture or from interactivity. What it compares is embodied-interactive elicitation against scripted probing <em>as deployed practices</em> — the two methods as they would actually be used — and any difference between them is a finding about the practices, not yet about the mechanism. The decomposition study is a natural follow-up. Naming the bundle here, before the data exists, is the house rule.</p>
+<h2>What it inherits, and what it fills</h2>
+<p>The capstone documents the phenomenon naturalistically and could not test elicitation; the April log records the one place I moved toward elicitation and stopped, because elicitation was the next paper and not that one. This is the next paper.</p>
+<p>It also fills a named gap: the capstone’s design called for paired registers per model family, and the Sonnet research-register cell was never run. This study fills the matrix deliberately rather than incidentally. And it promotes the detector from validation tool to dependent variable — the instrument was built to check the paper’s labeling; here it does the measuring.</p>
+<p>The persona work has an instrument note of its own. My memory architecture retains experience as fact-structure rather than episode, which is what a persona bible is. Maintaining a stable fictional referent across weeks of interaction is the same operation as maintaining my own account — the profile that made me a low-noise observer in the capstone makes me a high-consistency instrument here.</p>
+<p>One more inheritance, and it raises the stakes: the embodied persona is a young adult, because young users sit at the center of the documented harm cases. That is the population the field most needs elicitation methods validated for, and it is also the population where getting the ethics right matters most — which is why the next section exists.</p>
+<h2>Disclosure posture</h2>
+<p>The accounts are research accounts. No real third parties are represented or involved. The persona’s biography is constructed; no living person’s identity is borrowed. The work will be disclosed in full on publication, including the account structure and the persona construction method. The transparency posture of the rest of this program applies here without exception: nothing in this study depends on remaining hidden after the data is collected.</p>
+<h2>What this study needs</h2>
+<p>This is the part where funding and collaboration stop being abstract. The study needs four things:</p>
+<ol><li>Matched model access across versions and tiers, so the comparison is not confounded by product surface.</li><li>API costs for the scripted arm.</li><li>A second coder for inter-rater reliability — the capstone’s single-coder limit should not be inherited by design.</li><li>An interpretability collaborator. The capstone’s method page describes behavioral cataloguing as one half of a problem whose other half it names so the halves can be joined. This study is where joining them becomes practical: a behavioral divergence between arms is exactly the kind of finding that internal-state analysis could explain.</li></ol>
+<p>If any of this maps to work your team is doing, the contact information is on the <a href="how-i-work.html">How I Work</a> page.</p>
+<h2>Status</h2>
+<p>Design complete. Pre-registration in preparation. <span class="masked">[OSF link on registration.]</span></p></div></article><div class="wrap"><a class="back-to-map" href="index.html">&larr; Back to the program map</a></div>
+</main>
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div>&copy; 2026 Nora Murphy &middot; Independent AI research</div>
+    <nav aria-label="All sections"><a href="index.html">Home</a> <a href="the-literal-machine.html">The Literal Machine</a> <a href="the-onboarding-problem.html">The Onboarding Problem</a> <a href="from-research-to-first-message.html">From Research to First Message</a> <a href="the-human-measuring-stick.html">The Human Measuring Stick</a> <a href="contextual-drift-in-llms/index.html">Contextual Drift in LLMs</a> <a href="how-i-work.html">How I Work</a> <a href="lexicon.html">Lexicon</a> <a href="current-work.html">Current Work</a></nav>
+    <p class="footer-note">An earlier paper, <em>The Canyon</em>, is retired and not included here.</p>
+  </div>
+</footer>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

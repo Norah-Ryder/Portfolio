@@ -452,6 +452,9 @@ footer.site-footer {
 .site-footer nav { display: flex; flex-wrap: wrap; gap: 6px 18px; }
 .footer-note { flex-basis: 100%; margin: .2rem 0 0; color: var(--ink-3); font-size: 13px; }
 .footer-note em { font-style: italic; }
+/* Build stamp: plumbing, not content — small, low-contrast, unobtrusive. */
+.build-stamp { flex-basis: 100%; margin: .15rem 0 0; color: var(--ink-3); opacity: .6;
+  font-size: 11px; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
 
 /* ---------- Lexicon ---------- */
 .lex { max-width: var(--measure); margin: 0 auto; }

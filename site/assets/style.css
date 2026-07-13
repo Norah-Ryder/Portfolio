@@ -455,6 +455,17 @@ footer.site-footer {
 /* Build stamp: plumbing, not content — small, low-contrast, unobtrusive. */
 .build-stamp { flex-basis: 100%; margin: .15rem 0 0; color: var(--ink-3); opacity: .6;
   font-size: 11px; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+/* Spare homepage entry links. */
+.home-links { display: flex; flex-direction: column; gap: 0; margin: 1.6rem 0 .5rem; }
+.home-links a { display: block; font-size: 1.06rem; color: var(--ink); text-decoration: none;
+  padding: .7rem 0; border-top: 1px solid var(--border); }
+.home-links a:last-child { border-bottom: 1px solid var(--border); }
+.home-links a:hover { color: var(--purple); }
+.home-links a b { font-weight: 600; }
+/* Author-voice allowlist: a plain, scannable, reviewable list. */
+.allowlist { margin: 1.2rem 0; padding-left: 1.6rem; }
+.allowlist li { color: var(--ink-2); font-size: .95rem; line-height: 1.5; margin: .2rem 0;
+  font-variant-numeric: tabular-nums; }
 
 /* ---------- Lexicon ---------- */
 .lex { max-width: var(--measure); margin: 0 auto; }
